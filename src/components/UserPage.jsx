@@ -50,7 +50,7 @@ const UserPage = () => {
             </section>
         </main>
         <footer>
-            <p>&copy; {new Date().getFullYear()} Ваше Имя</p>
+            <p>&copy; {new Date().getFullYear()}</p>
         </footer>
         </div>
             ):(

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 const Cart =()=>{
     const [items,setItems]=useState([])
     const {login}=useParams()
@@ -88,11 +88,15 @@ const Cart =()=>{
     return (
         <div>
             {login===localStorage.getItem('LogIn')?(
-                
-            
+                <div>
+                <NavLink to='/'>
+                  <button className="cart-button" >На главную</button>
+                </NavLink>
                 <div className="cart-container">
+                </div>
                 {items.length === 0 ? (
                   <div className="empty-cart">No items in the cart.</div>
+                
                 ) : (
                   items.map((item, index) => (
                     <div key={new Date().getTime() + index} className="cart-item">
