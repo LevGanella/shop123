@@ -26,7 +26,7 @@ const Enter = () => {
     .then(result=>{
         if (result){
           setUrl(result)
-          window.history.pushState(null,null,`http://localhost:3000/${result}`)
+          window.history.pushState(null,null,`/${result}`)
           window.location.reload()
           localStorage.setItem('LogIn',result)
         }        
