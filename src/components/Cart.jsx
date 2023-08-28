@@ -89,15 +89,16 @@ const Cart =()=>{
         <div>
             {login===localStorage.getItem('LogIn')?(
                 <div>
-                <NavLink to='/'>
-                  <button className="cart-button" >На главную</button>
-                </NavLink>
+                  <NavLink to='/'>
+                    <button className="cart-button" >На главную</button>
+                  </NavLink>
                 <div className="cart-container">
-                </div>
+                
                 {items.length === 0 ? (
                   <div className="empty-cart">No items in the cart.</div>
                 
-                ) : (
+                ) 
+                : (
                   items.map((item, index) => (
                     <div key={new Date().getTime() + index} className="cart-item">
                       
@@ -116,8 +117,10 @@ const Cart =()=>{
                       </div>
                       <button className="close-button" onClick={()=>OnClickClose(localStorage.getItem('LogIn'),item.name,item.id,item.price,item.count)}>&times;</button>
                     </div>
+                    
                   ))
                 )}
+                </div>
               </div>
             )
             :(
