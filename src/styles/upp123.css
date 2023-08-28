@@ -1,0 +1,33 @@
+
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+.shop{
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.EnterButton, .RegButton {
+    background-color: #ccc;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.EnterButton:hover, .RegButton:hover {
+    background-color: #999;
+}
+
+
+
+  

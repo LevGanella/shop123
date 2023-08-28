@@ -1,0 +1,86 @@
+.user-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  main {
+    padding: 20px;
+  }
+  
+  .profile, .settings {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+  
+  .profile-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .user-info {
+    flex: 1;
+  }
+  
+  .user-name {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  
+  .user-email {
+    color: #666;
+  }
+  
+  .settings label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+  }
+
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    padding: 10px;
+  }
+  
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
+    border-bottom: 2px solid transparent; /* Добавляем пустую линию вместо подчеркивания */
+  }
+  
+.nav-link:hover {
+    background-color: #555;
+  }
+  
+.active-link {
+    background-color: #3498db;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    border-bottom-color: #fff; /* Делаем линию видимой при активной ссылке */
+  }
+  

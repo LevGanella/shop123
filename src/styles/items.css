@@ -1,0 +1,15 @@
+.items{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.item1{
+    position: relative;
+    left: 20%;
+}
+.item3{
+    position: relative;
+    right: 20%;
+}
