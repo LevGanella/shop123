@@ -16,15 +16,18 @@ const express_1 = __importDefault(require("express"));
 const userClass_1 = __importDefault(require("./userClass"));
 const productsClass_1 = __importDefault(require("./productsClass"));
 const mongodb_1 = require("mongodb");
-const console_1 = require("console");
 const app = (0, express_1.default)();
 const cors = require('cors');
 app.use(express_1.default.json());
 app.use(cors());
 const dbClient = new mongodb_1.MongoClient('mongodb://localhost:27017');
 //const db = dbClient.db('usersShop');
-//const collection = db.collection('users');
-//collection.deleteMany({});
+//const collection = db.collection('messages');
+//collection.deleteMany({})
+const server = app.listen(5000, () => {
+    logDb();
+    console.log('Server is running on port 5001230');
+});
 const addToDb = (user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield dbClient.connect();
@@ -55,11 +58,13 @@ const findInDb = (req, req2) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (err) {
+        throw err;
         console.log(err);
     }
     finally {
         yield dbClient.close();
     }
+    ;
 });
 const logDb = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -68,7 +73,7 @@ const logDb = () => __awaiter(void 0, void 0, void 0, function* () {
         const collection = db.collection("users");
         const arr = yield collection.find({}).toArray();
         arr.forEach((el) => {
-            console.log('{login: ' + el.login + ', password: ' + el.password + '}');
+            console.log('{login: ' + el.login + ', password: ' + el.password + ', isBoss: ' + el.isBoss + '}');
         });
     }
     catch (err) {
@@ -110,7 +115,7 @@ const deleteProductIndB = (product, login) => __awaiter(void 0, void 0, void 0, 
             id: product.id,
             name: product.name,
             price: product.price,
-            count: console_1.count
+            count: product.count
         });
     }
     catch (err) {
@@ -135,8 +140,74 @@ const PrintProdactsFromDb = (login) => __awaiter(void 0, void 0, void 0, functio
         yield dbClient.close();
     }
 });
+const meassagesToDb = (messages) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield dbClient.connect();
+        const db = dbClient.db("usersShop");
+        const collection = db.collection(`${messages.chat}`);
+        messages = { name: messages.name, text: messages.text };
+        yield collection.insertOne(messages);
+    }
+    catch (err) {
+        console.log('err1', err);
+    }
+    finally {
+        yield dbClient.close();
+    }
+});
+const messagesPrintFromDb = (login) => __awaiter(void 0, void 0, void 0, function* () {
+    let dbClient;
+    try {
+        dbClient = yield mongodb_1.MongoClient.connect("mongodb://localhost:27017");
+        const db = dbClient.db("usersShop");
+        const collection = db.collection(`${login}`);
+        console.log(login);
+        const arrMessages = yield collection.find({}).toArray();
+        console.log(arrMessages);
+        const filter = arrMessages.map((mes) => ({
+            name: mes.name,
+            text: mes.text
+        }));
+        return filter;
+    }
+    catch (err) {
+        console.log('Ошибка при запросе из базы данных:', err);
+        throw err;
+    }
+    finally {
+        if (dbClient) {
+            yield dbClient.close();
+        }
+    }
+});
+const getChats = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield dbClient.connect();
+        const db = dbClient.db("usersShop");
+        const collection = yield db.listCollections({ name: { $regex: 'messages/' } }).toArray();
+        return collection;
+    }
+    catch (err) {
+        console.log('err1', err);
+    }
+    finally {
+        yield dbClient.close();
+    }
+});
+app.get("/getchats", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const chats = yield getChats();
+    res.send(chats);
+}));
+app.post("/messagesAdd", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const mes = { text: req.body.text, name: req.body.name, chat: req.body.chat };
+    yield meassagesToDb(mes);
+}));
+app.post("/messagesPrint", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const arr = yield messagesPrintFromDb(req.body.chat);
+    res.send(arr);
+}));
 app.post('/reg', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let user = new userClass_1.default(req.body.login1, req.body.password1);
+    let user = new userClass_1.default(req.body.login1, req.body.password1, false);
     const exist1 = yield findInDb(req.body.login1, req.body.password1);
     if (!exist1 && user.login != '') {
         yield addToDb(user);
@@ -146,7 +217,8 @@ app.post('/reg', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 app.post('/enter', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let user = new userClass_1.default(req.body.login, req.body.password);
+    const boss = req.body.login == '1' ? true : false;
+    let user = new userClass_1.default(req.body.login, req.body.password, boss);
     const exist = yield findInDb(req.body.login, req.body.password);
     if (exist) {
         console.log(user.login);
@@ -170,7 +242,3 @@ app.delete('/cart/delete', (req, res) => __awaiter(void 0, void 0, void 0, funct
     yield deleteProductIndB(product, req.body.user);
     res.send(true);
 }));
-app.listen(5000, () => {
-    logDb();
-    console.log('Server is running on port 5000');
-});

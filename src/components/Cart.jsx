@@ -25,7 +25,7 @@ const Cart =()=>{
           })
           .then(res=>res.json())
           .then(res=>{
-            if(res==true){
+            if(res===true){
               window.location.reload()
             }
           })

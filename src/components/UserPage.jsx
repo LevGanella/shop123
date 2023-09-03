@@ -1,13 +1,24 @@
-import React from "react";
+import React ,{useState}from "react";
 import { NavLink ,useParams } from "react-router-dom";
+import Chat123 from "./Chat123";
 
 const UserPage = () => {
     const {login}=useParams()
+    const [help ,setHelp] =useState(false)
     console.log(login)
     const Onexit = ()=>{
         localStorage.removeItem('LogIn')
     }
-
+    const Onhelp = ()=>{
+        if(help){
+            setHelp(false)
+            window.location.reload()
+        }
+        else{
+            setHelp(true)
+            
+        }
+    }
     return (
         <div>
             
@@ -28,6 +39,7 @@ const UserPage = () => {
             Выйти
             </NavLink>
         </nav>
+        
         <main>
             <section className="profile">
             <h2>Ваш профиль</h2>
@@ -48,6 +60,15 @@ const UserPage = () => {
             <label htmlFor="notifications">Уведомления</label>
             <input type="checkbox" id="notifications" checked />
             </section>
+            <button onClick={Onhelp}>Help</button>
+            {help?(
+                <Chat123 />
+            ):
+            (
+                <div>
+                </div>
+            )}
+            
         </main>
         <footer>
             <p>&copy; {new Date().getFullYear()}</p>
