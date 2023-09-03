@@ -1,7 +1,7 @@
 import {Server} from "socket.io"
 const io = new Server(8080,{
     cors:{
-        origin: "http://localhost:3000",
+        origin: "*",
         methods: ["GET", "POST"]
 
     }
