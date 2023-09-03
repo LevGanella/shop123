@@ -1,7 +1,7 @@
 import {Server} from "socket.io"
 const io = new Server(8080,{
     cors:{
-        origin: "*",
+        origin: "https://shop123.vercel.app",
         methods: ["GET", "POST"]
 
     }
