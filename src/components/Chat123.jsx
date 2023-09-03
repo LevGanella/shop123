@@ -7,7 +7,7 @@ const Chat123 = () => {
     const [chat,setChat]=useState([])
     const [socket,setSocket] = useState(null)
     useEffect(()=>{
-        const socket123 = io('http://localhost:8080');
+        const socket123 = io('https://shop123.vercel.app:8080');
 
         socket123.on('connect', () => {
             console.log('Connected, Socket ID:', socket123.id);
